@@ -11,6 +11,11 @@ test('Swap Endianess', function(t){
   t.equal(0xAABB, OTAUtil.swapEndian(0xBBAA))
 })
 
+test('Swap', function(t){
+  t.plan(1)
+  t.equal(OTAUtil.swap(0xDDCCBBAA), 0xAABBCCDD)
+})
+
 test('Summation CheckSum', function (t) {
   t.plan(6)
 
