@@ -40,7 +40,7 @@ var OTAFirmwareWrite = function(OTAService) {
         OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAGetFlashSizeCmd = function(data, checkSumType, dataLength) {
+    this.OTAGetFlashSizeCmd = function(data, checkSumType, dataLength, callback) {
         var commandBytes = [];
         var startCommand = 0x01;
         commandBytes[BYTE_START_CMD] = startCommand;
@@ -59,10 +59,10 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[datByteLocationEnd + 1] = (checksum >> ADDITIVE_OP);
         commandBytes[datByteLocationEnd + 2] = BootLoaderCommands.PACKET_END;
         debug("OTAGetFlashSizeCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes);
+        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAProgramRowSendDataCmd = function(data, checksumType) {
+    this.OTAProgramRowSendDataCmd = function(data, checksumType, callback) {
         var totalSize = BootLoaderCommands.BASE_CMD_SIZE +
                 data.length;
         var checksum;
@@ -81,10 +81,10 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[totalSize - 2] = (checksum >> ADDITIVE_OP);
         commandBytes[totalSize - 1] = BootLoaderCommands.PACKET_END;
         debug("OTAProgramRowSendDataCmd Send size--->" + commandBytes.length);
-        OTAService.writeOTABootLoaderCommand(commandBytes);
+        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAProgramRowCmd = function(rowMSB, rowLSB, arrayID, data, checkSumType) {
+    this.OTAProgramRowCmd = function(rowMSB, rowLSB, arrayID, data, checkSumType, callback) {
 
         var COMMAND_DATA_SIZE = 3;
         var totalSize = BootLoaderCommands.BASE_CMD_SIZE + COMMAND_DATA_SIZE +
@@ -108,10 +108,10 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[totalSize - 2] = (checksum >> ADDITIVE_OP);
         commandBytes[totalSize - 1] = BootLoaderCommands.PACKET_END;
         debug("OTAProgramRowCmd send size--->" + commandBytes.length);
-        OTAService.writeOTABootLoaderCommand(commandBytes);
+        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAVerifyRowCmd = function(rowMSB, rowLSB, model, checkSumType) {
+    this.OTAVerifyRowCmd = function(rowMSB, rowLSB, model, checkSumType, callback) {
       var COMMAND_DATA_SIZE = 3;
       var COMMAND_SIZE = BootLoaderCommands.BASE_CMD_SIZE + COMMAND_DATA_SIZE;
       var checksum;
@@ -130,10 +130,10 @@ var OTAFirmwareWrite = function(OTAService) {
       commandBytes[BYTE_CHECKSUM_VER_ROW_SHIFT] = (checksum >> ADDITIVE_OP);
       commandBytes[BYTE_PACKET_END_VER_ROW] = BootLoaderCommands.PACKET_END;
       debug("OTAVerifyRowCmd");
-      OTAService.writeOTABootLoaderCommand(commandBytes);
+      OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAVerifyCheckSumCmd = function(checkSumType) {
+    this.OTAVerifyCheckSumCmd = function(checkSumType, callback) {
 
         var checksum;
         var commandBytes = [];
@@ -148,10 +148,10 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CHECKSUM_SHIFT] = (checksum >> ADDITIVE_OP);
         commandBytes[BYTE_PACKET_END] = BootLoaderCommands.PACKET_END;
         debug("OTAVerifyCheckSumCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes);
+        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 
-    this.OTAExitBootloaderCmd = function(checkSumType) {
+    this.OTAExitBootloaderCmd = function(checkSumType, callback) {
 
         var COMMAND_DATA_SIZE = 0x00;
         var COMMAND_SIZE = BootLoaderCommands.BASE_CMD_SIZE + COMMAND_DATA_SIZE;
@@ -168,7 +168,7 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CHECKSUM_SHIFT] = (checksum >> ADDITIVE_OP);
         commandBytes[BYTE_PACKET_END] = BootLoaderCommands.PACKET_END;
         debug("OTAExitBootloaderCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes, true);
+        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
     }
 }
 
