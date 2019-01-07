@@ -90,8 +90,8 @@ var OTAResponseReceiver = function() {
         switch (reponseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
-                var siliconID = result.substring(SILICON_ID_START, SILICON_ID_END);
-                var siliconRev = result.substring(SILICON_REV_START, SILICON_REV_END);
+                var siliconID = result.substring(SILICON_ID_START, SILICON_ID_END).toUpperCase();
+                var siliconRev = result.substring(SILICON_REV_START, SILICON_REV_END).toUpperCase();
                 callback(null, siliconID, siliconRev)
                 break;
             default:
