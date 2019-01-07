@@ -1,11 +1,13 @@
 var OTAService = require('./ota_service.js')
 var otaService = new OTAService()
 
-var OTAWriter = require('./ota_writer.js')
-var otaWriter = new OTAWriter(otaService)
+var OTAUpdater = require('./ota_updater.js')
+var otaUpdater = new OTAUpdater(otaService)
 
-var OTAReader = require('./ota_reader.js')
-var otaReader = new OTAReader()
+var PayloadProcessor = require('./payloadProcessor.js')
+var payloadProcessor = new PayloadProcessor('./test/bootloadable.cyacd')
+payloadProcessor.analyzeHeader()
+payloadProcessor.readDataLines()
 
 var _ = require('underscore');
 
@@ -42,15 +44,6 @@ function deviceUpdated(device){
   //
 }
 
-otaService.on('data', function(data){
-  console.log(data);
-  data = data.toString('hex');
-  otaReader.parseEnterBootLoaderAcknowledgement(data, function(err, siliconID, siliconRev){
-    console.log(err, siliconID, siliconRev)
-  })
-})
-
-
 otaService.startDeviceScan(deviceAdded, deviceUpdated, function(err){
   console.log("Scan callback", err)
 })
@@ -63,11 +56,10 @@ list.on('select', function(options){
     otaService.connect(device, function(err){
       console.log("Connect Callback", err)
       if(err){
-        return
+        process.exit(0)
       }
-      otaWriter.OTAEnterBootLoaderCmd(0, function(err){
-        console.log(err)
-      })
+
+      otaUpdater.start(payloadProcessor)
     })
   })
 });
@@ -86,21 +78,3 @@ list.on('cancel', function(options){
 //Discover Service and Characteristics
 //Connect to service
 //InitiateDFU sequence
-
-//Adjust MTU 138?
-
-//ENTER_BOOTLOADER
-//Wait for response
-//GET_FLASH_SIZE
-//wait for response
-//SEND_DATA
-//wait for response
-//PROGRAM_ROW
-//wait for response
-//VERIFY_ROW
-//wait for response
-//VERIFY_CHECK_SUM
-//wait for response
-//EXIT_BOOTLOADER
-//wait for response
-//done
