@@ -1,0 +1,14 @@
+var BootLoaderCommands = {
+  VERIFY_CHECK_SUM: 0x31,
+  GET_FLASH_SIZE: 0x32,
+  ENTER_BOOTLOADER: 0x38,
+  SEND_DATA: 0x37,
+  PROGRAM_ROW: 0x39,
+  VERIFY_ROW: 0x3A,
+  EXIT_BOOTLOADER: 0x3B,
+  PACKET_END: 0x17,
+  MAX_DATA_SIZE: 133,
+  BASE_CMD_SIZE: 0x07
+}
+
+module.exports = BootLoaderCommands

@@ -1,0 +1,24 @@
+{
+  "name": "cypress-dfu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crc": "^3.8.0",
+    "debug": "^4.1.1",
+    "select-shell": "^1.1.2",
+    "underscore": "^1.9.1"
+  },
+  "optionalDependencies": {
+    "noble-mac": "git://github.com/Timeular/noble-mac.git",
+    "noble-winrt": "git://github.com/Timeular/noble-winrt.git"
+  },
+  "devDependencies": {
+    "tape": "^4.9.2"
+  }
+}
