@@ -108,15 +108,6 @@ var OTAUpdater = function(otaService){
       case PROGRAM_ROW_SEND_DATA_REQ:
         updater.currentState = PROGRAM_ROW_SEND_DATA_RES;
         writeProgrammableData(updater.programRowNumber)
-
-        //TODO data
-
-        // otaWriter.OTAProgramRowSendDataCmd(data, updater.payload.checkSumType, function(err){
-        //   if(err){
-        //     updater.handleError(err)
-        //     return
-        //   }
-        // })
       break;
       case PROGRAM_ROW_SEND_DATA_RES:
         otaReader.parseParseSendDataAcknowledgement(data, function(err, status){
@@ -129,17 +120,7 @@ var OTAUpdater = function(otaService){
         })
       break;
       case PROGRAM_ROW_REQ:
-        //TODO data
-
         writeProgrammableData(updater.programRowNumber)
-
-        // updater.currentState = PROGRAM_ROW_RES;
-        // otaWriter.OTAProgramRowSendDataCmd(data, updater.payload.checkSumType, function(err){
-        //   if(err){
-        //     updater.handleError(err)
-        //     return
-        //   }
-        // })
       break;
       case PROGRAM_ROW_RES:
         otaReader.parseParseRowAcknowledgement(data, function(err, status){
@@ -197,8 +178,7 @@ var OTAUpdater = function(otaService){
 
           if (fileCheckSumByte.toUpperCase() == checksum.toUpperCase()) {
             updater.programRowNumber = updater.programRowNumber + 1;
-            //Shows ProgressBar status
-            // showProgress(mProgressBarPosition, updater.programRowNumber, mFlashRowList.size());
+
             if (updater.programRowNumber < updater.payload.flashDataLines.length) {
               updater.programRowStartPos = 0
               writeProgrammableData(updater.programRowNumber);
@@ -206,19 +186,12 @@ var OTAUpdater = function(otaService){
             else if (updater.programRowNumber == updater.payload.flashDataLines.length) {
               updater.programRowNumber = 0
               updater.programRowStartPos = 0
-                /**
-                 * Writing the next command
-                 * Changing the shared preference value
-                 */
+
               updater.currentState = VERIFY_CHECKSUM_REQ
               updater.doState(updater.currentState)
-              // mProgressText.setText(getActivity().getResources().
-              //         getText(R.string.ota_verify_checksum));
             }
           }
           else {
-            // showErrorDialogMessage(getActivity().getResources().getString(
-            //         R.string.alert_message_checksum_error), false);
             updater.handleError(new Error(["Verify row checksum failed. Expected: ", fileCheckSumByte, " Got: ", checksum].join(' ')))
           }
         })
@@ -304,25 +277,19 @@ var OTAUpdater = function(otaService){
               var dataLength = modelData.dataLength - startPosition;
               var dataToSend = [];
               for (var pos = 0; pos < dataLength; pos++) {
-                  if (startPosition < modelData.data.length) {
-                      var data = modelData.data[startPosition];
-                      dataToSend[pos] = data;
-                      startPosition++;
-                  } else {
-                      break;
-                  }
+                if (startPosition < modelData.data.length) {
+                  var data = modelData.data[startPosition];
+                  dataToSend[pos] = data;
+                  startPosition++;
+                } else {
+                  break;
+                }
               }
 
               updater.currentState = PROGRAM_ROW_RES;
-              otaWriter.OTAProgramRowCmd(rowMSB, rowLSB, modelData.arrayID,
-                      dataToSend, updater.payload.checkSumType);
-              // Utils.setStringSharedPreference(getActivity(),
-              //         Constants.PREF_BOOTLOADER_STATE, "" +
-              //                 BootLoaderCommands.PROGRAM_ROW);
+              otaWriter.OTAProgramRowCmd(rowMSB, rowLSB, modelData.arrayID, dataToSend, updater.payload.checkSumType);
 
               updater.programRowStartPos = 0
-              // mProgressText.setText(getActivity().getResources().
-              //         getText(R.string.ota_program_row));
           } else {
               var dataLength = BootLoaderCommands.MAX_DATA_SIZE;
               var dataToSend = [];
@@ -337,14 +304,9 @@ var OTAUpdater = function(otaService){
               }
 
               updater.currentState = PROGRAM_ROW_SEND_DATA_RES;
-              otaWriter.OTAProgramRowSendDataCmd(
-                      dataToSend, updater.payload.checkSumType);
-              // Utils.setStringSharedPreference(getActivity(),
-              //         Constants.PREF_BOOTLOADER_STATE, "" +
-              //                 BootLoaderCommands.SEND_DATA);
+              otaWriter.OTAProgramRowSendDataCmd(dataToSend, updater.payload.checkSumType);
+
               updater.programRowStartPos = startPosition
-              // mProgressText.setText(getActivity().getResources().
-              //         getText(R.string.ota_program_row));
           }
       } else {
         updater.handleError(new Error(["Program row number is not within the acceptable range.", mRowNo, updater.startRow, updater.endRow].join(" ")))
