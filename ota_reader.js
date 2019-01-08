@@ -64,8 +64,8 @@ var OTAResponseReceiver = function() {
         var result = hexValue.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         var status = result.substring(STATUS_START, STATUS_END);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 callback(null, status)//SEND_DATA_ROW_STATUS
@@ -86,8 +86,8 @@ var OTAResponseReceiver = function() {
         var result = parse.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         debug("Response>>>>>" + result);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 var siliconID = result.substring(SILICON_ID_START, SILICON_ID_END).toUpperCase();
@@ -110,8 +110,8 @@ var OTAResponseReceiver = function() {
         var result = parse.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         debug("Get flash size Response>>>>>" + result);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 var startRow = OTAUtil.swap(parseInt(result.substring(START_ROW_START, START_ROW_END), RADIX));
@@ -135,8 +135,8 @@ var OTAResponseReceiver = function() {
         var result = parse.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         var status = result.substring(STATUS_START, STATUS_END);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 callback(null, status)
@@ -157,8 +157,8 @@ var OTAResponseReceiver = function() {
         var result = parse.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         var data = result.substring(DATA_START, DATA_END);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 callback(null, response, data)//VERIFY_ROW_STATUS, VERIFY_ROW_CHECKSUM
@@ -179,8 +179,8 @@ var OTAResponseReceiver = function() {
         var result = parse.trim().replace(" ", "");
         var response = result.substring(RESPONSE_START, RESPONSE_END);
         var checkSumStatus = result.substring(CHECKSUM_START, CHECKSUM_END);
-        var reponseBytes = parseInt(response, RADIX);
-        switch (reponseBytes) {
+        var responseBytes = parseInt(response, RADIX);
+        switch (responseBytes) {
             case CASE_SUCCESS:
                 debug("CYRET_SUCCESS");
                 callback(null, checkSumStatus)
