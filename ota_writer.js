@@ -41,6 +41,7 @@ var OTAFirmwareWrite = function(OTAService) {
     }
 
     this.OTAGetFlashSizeCmd = function(data, checkSumType, dataLength, callback) {
+        debug("OTAGetFlashSizeCmd", data, checkSumType, dataLength)
         var commandBytes = [];
         var startCommand = 0x01;
         commandBytes[BYTE_START_CMD] = startCommand;
@@ -66,7 +67,6 @@ var OTAFirmwareWrite = function(OTAService) {
         var totalSize = BootLoaderCommands.BASE_CMD_SIZE +
                 data.length;
         var checksum;
-        var i;
         var commandBytes = [];
         var startCommand = 0x01;
 
@@ -74,7 +74,12 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CMD_TYPE] = BootLoaderCommands.SEND_DATA;
         commandBytes[BYTE_CMD_DATA_SIZE] = (data.length);
         commandBytes[BYTE_CMD_DATA_SIZE_SHIFT] = (((data.length) >> ADDITIVE_OP));
-        for (i = 0; i < data.length; i++)
+
+
+        debug("OTAProgramRowSendDataCmd", commandBytes)
+        debug(data)
+
+        for (var i = 1; i < data.length; i++)
             commandBytes[i + 4] = data[i];
         checksum = OTAUtil.calculateCheckSum(parseInt(checksumType, RADIX), commandBytes);
         commandBytes[totalSize - 3] = checksum;
@@ -122,7 +127,7 @@ var OTAFirmwareWrite = function(OTAService) {
       commandBytes[BYTE_CMD_TYPE] = BootLoaderCommands.VERIFY_ROW;
       commandBytes[BYTE_CMD_DATA_SIZE] = (COMMAND_DATA_SIZE);
       commandBytes[BYTE_CMD_DATA_SIZE_SHIFT] = (COMMAND_DATA_SIZE >> ADDITIVE_OP);
-      commandBytes[BYTE_ARRAY_ID] = model.mArrayId;
+      commandBytes[BYTE_ARRAY_ID] = model.arrayID;
       commandBytes[BYTE_ROW] = rowMSB;
       commandBytes[BYTE_ROW_SHIFT] = rowLSB;
       checksum = OTAUtil.calculateCheckSum(parseInt(checkSumType, RADIX), commandBytes);
