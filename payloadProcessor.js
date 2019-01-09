@@ -1,16 +1,15 @@
 var fs = require('fs');
 var OTAFlashRow = require('./models/OTAFlashRow')
 
-var PayloadProcessor = function(path){
+var PayloadProcessor = function(cypressPayload){
   var processor = this
-  processor.filePath = path
   processor.siliconID = null
   processor.siliconRev = null
   processor.checkSumType = null
   processor.header = null
   processor.flashDataLines = [];
-  
-  processor.file = fs.readFileSync(processor.filePath, 'utf8')
+
+  processor.file = cypressPayload
   processor.file = processor.file.trim()//Remove surrounding whitespace
 
   processor.analyzeHeader = function(){

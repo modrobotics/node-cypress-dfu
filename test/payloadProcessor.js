@@ -1,7 +1,8 @@
 var test = require('tape')
+var fs = require('fs')
 
 var PayloadProcessor = require('../payloadProcessor')
-var payloadProcessor = new PayloadProcessor('./test/bootloadable.cyacd')
+var payloadProcessor = new PayloadProcessor(fs.readFileSync('./test/bootloadable.cyacd', 'utf8'))
 
 test('Read Header', function (t) {
   t.plan(3)
