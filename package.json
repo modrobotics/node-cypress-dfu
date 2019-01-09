@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cli-progress": "^2.1.1",
     "crc": "^3.8.0",
     "debug": "^4.1.1",
     "select-shell": "^1.1.2",

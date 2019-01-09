@@ -146,7 +146,7 @@ var OTAService = function(){
     });
 
     device.on('disconnect', function(){
-      console.log("Disconnected")
+      debug("Disconnected")
     });
 
     device.connect(function(err){

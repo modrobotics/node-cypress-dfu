@@ -1,3 +1,5 @@
+var events = require('events')
+var util = require('util');
 var debug = require('debug')("cypress-dfu:ota_updater")
 var OTAUtil = require('./ota_util.js')
 var BootLoaderCommands = require('./ota_commands.js')
@@ -49,6 +51,7 @@ var OTAUpdater = function(otaService){
     debug("Performing state: "+state)
     switch(state){
       case ENTER_BOOTLOADER_REQ:
+        updater.emit('flashStart')
         updater.currentState = ENTER_BOOTLOADER_RES;
         otaWriter.OTAEnterBootLoaderCmd(updater.payload.checkSumType, function(err){
           if(err){
@@ -216,15 +219,18 @@ var OTAUpdater = function(otaService){
         })
       break;
       case EXIT_BOOTLOADER_REQ:
-        updater.currentState = EXIT_BOOTLOADER_RES;
+        debug("EXIT_BOOTLOADER_REQ")
         otaWriter.OTAExitBootloaderCmd(updater.payload.checkSumType, function(err){
           if(err){
             updater.handleError(err)
             return
           }
+          updater.currentState = FINISHED;
+          updater.doState(updater.currentState)
         })
       break;
       case EXIT_BOOTLOADER_RES:
+        debug("EXIT_BOOTLOADER_RES")
         otaReader.parseExitBootloader(data, function(err, response){
           if(err){
             updater.handleError(err)
@@ -236,14 +242,15 @@ var OTAUpdater = function(otaService){
       break;
 
       case FINISHED:
+        debug("FINISHED")
         //Cleanup, emit final event
-        console.log("FINISHED!!!!!!!!!!!!!!")
+        updater.emit('flashFinished')
       break;
     }
   }
 
   this.handleError = function(err){
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!ERROR: ", err)
+    updater.emit("error", err)    
   }
 
   function checkProgramRowCommandToSend(totalSize) {
@@ -255,8 +262,14 @@ var OTAUpdater = function(otaService){
     }
   }
 
+  function progressUpdate(position){
+    var percentage = (position/(updater.payload.flashDataLines.length-1))*100
+    updater.emit("progress", Math.floor(percentage))
+  }
+
   function writeProgrammableData(rowPosition){
     debug("writeProgrammableData rowPosition: ", rowPosition)
+    progressUpdate(rowPosition)
     var startPosition = updater.programRowStartPos
     var modelData = updater.payload.flashDataLines[rowPosition]
     var mRowNo = OTAUtil.swap(parseInt(modelData.rowNumber.substring(0, 4), 16));
@@ -315,4 +328,5 @@ var OTAUpdater = function(otaService){
   }
 }
 
+util.inherits(OTAUpdater, events.EventEmitter);
 module.exports = OTAUpdater
