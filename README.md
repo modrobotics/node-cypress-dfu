@@ -1,3 +1,24 @@
+# Cypress Firmware Updater
+
+`cypress-dfu` is a hello-world for updating firmware on Cypress BLE chips
+running the Fixed-Stack Bootloader supplied by Cypress. It is a javascript port
+of the Android source for the CySmart app.
+
+Currently this repo is customized to work with the Cubelets Hat specifically. But
+could be adapted to work with other implementations.
+
+## Requirements
+- node v6.14.2 or later
+
+## Installing
+`npm install`
+
+## Running
+`node index.js`
+
+# Flashing Flow
+Flow captured from debugging the CySmart app. See `output.log` for the full dump.
+```
 Check Sum type comes from CYACD HEADER. Either Summation or CRC16
 
 PACKET STRUCTURE
@@ -41,3 +62,4 @@ OTAExitBootloaderCmd
 
 Reponse Byte Exit>>00
 Fragment Exit bootloader response>>00
+```
