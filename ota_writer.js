@@ -2,7 +2,7 @@ var BootLoaderCommands = require('./ota_commands')//TODO
 var OTAUtil = require('./ota_util.js')
 var debug = require('debug')('cypress_dfu:ota_writer')
 
-var OTAFirmwareWrite = function(OTAService) {
+var OTAFirmwareWrite = function(writeMethod) {
     var BYTE_START_CMD = 0;
     var BYTE_CMD_TYPE = 1;
     var BYTE_CMD_DATA_SIZE = 2;
@@ -37,7 +37,7 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CHECKSUM_SHIFT] = (checksum >> ADDITIVE_OP);
         commandBytes[BYTE_PACKET_END] = BootLoaderCommands.PACKET_END;
         debug("OTAEnterBootLoaderCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAGetFlashSizeCmd = function(data, checkSumType, dataLength, callback) {
@@ -60,7 +60,7 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[datByteLocationEnd + 1] = (checksum >> ADDITIVE_OP);
         commandBytes[datByteLocationEnd + 2] = BootLoaderCommands.PACKET_END;
         debug("OTAGetFlashSizeCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAProgramRowSendDataCmd = function(data, checksumType, callback) {
@@ -86,7 +86,7 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[totalSize - 2] = (checksum >> ADDITIVE_OP);
         commandBytes[totalSize - 1] = BootLoaderCommands.PACKET_END;
         debug("OTAProgramRowSendDataCmd Send size--->" + commandBytes.length);
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAProgramRowCmd = function(rowMSB, rowLSB, arrayID, data, checkSumType, callback) {
@@ -113,7 +113,7 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[totalSize - 2] = (checksum >> ADDITIVE_OP);
         commandBytes[totalSize - 1] = BootLoaderCommands.PACKET_END;
         debug("OTAProgramRowCmd send size--->" + commandBytes.length);
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAVerifyRowCmd = function(rowMSB, rowLSB, model, checkSumType, callback) {
@@ -135,11 +135,10 @@ var OTAFirmwareWrite = function(OTAService) {
       commandBytes[BYTE_CHECKSUM_VER_ROW_SHIFT] = (checksum >> ADDITIVE_OP);
       commandBytes[BYTE_PACKET_END_VER_ROW] = BootLoaderCommands.PACKET_END;
       debug("OTAVerifyRowCmd");
-      OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+      writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAVerifyCheckSumCmd = function(checkSumType, callback) {
-
         var checksum;
         var commandBytes = [];
         var startCommand = 0x01;
@@ -153,11 +152,10 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CHECKSUM_SHIFT] = (checksum >> ADDITIVE_OP);
         commandBytes[BYTE_PACKET_END] = BootLoaderCommands.PACKET_END;
         debug("OTAVerifyCheckSumCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
     }
 
     this.OTAExitBootloaderCmd = function(checkSumType, callback) {
-
         var COMMAND_DATA_SIZE = 0x00;
         var COMMAND_SIZE = BootLoaderCommands.BASE_CMD_SIZE + COMMAND_DATA_SIZE;
         var checksum;
@@ -173,7 +171,11 @@ var OTAFirmwareWrite = function(OTAService) {
         commandBytes[BYTE_CHECKSUM_SHIFT] = (checksum >> ADDITIVE_OP);
         commandBytes[BYTE_PACKET_END] = BootLoaderCommands.PACKET_END;
         debug("OTAExitBootloaderCmd");
-        OTAService.writeOTABootLoaderCommand(commandBytes, callback);
+        writeOTABootLoaderCommand(commandBytes, callback);
+    }
+
+    function writeOTABootLoaderCommand(commandBytes, callback){
+      writeMethod(commandBytes, callback)
     }
 }
 

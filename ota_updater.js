@@ -3,6 +3,8 @@ var util = require('util');
 var debug = require('debug')("cypress-dfu:ota_updater")
 var OTAUtil = require('./ota_util.js')
 var BootLoaderCommands = require('./ota_commands.js')
+var OTAReader = require('./ota_reader.js')
+var OTAWriter = require('./ota_writer.js')
 
 //States for the flashing state machine
 var ENTER_BOOTLOADER_REQ = 1
@@ -21,12 +23,8 @@ var EXIT_BOOTLOADER_REQ = 13
 var EXIT_BOOTLOADER_RES = 14
 var FINISHED = 15
 
-//Adjust MTU 138? <- Happens in firmware?
-var OTAUpdater = function(otaService){
-  var OTAWriter = require('./ota_writer.js')
-  var otaWriter = new OTAWriter(otaService)
-
-  var OTAReader = require('./ota_reader.js')
+var OTAUpdater = function(writeMethod){
+  var otaWriter = new OTAWriter(writeMethod)
   var otaReader = new OTAReader()
 
   var updater = this
@@ -35,12 +33,13 @@ var OTAUpdater = function(otaService){
   updater.currentState = ENTER_BOOTLOADER_REQ
   updater.programRowNumber = 0
   updater.programRowStartPos = 0
-  updater.arrayID = 1//????
+  updater.arrayID = 1
 
-  otaService.on('data', function(data){
+  //Handle incoming data from higher level connection
+  this.onData = function(data){
     data = data.toString('hex');
     updater.doState(updater.currentState, data)
-  })
+  }
 
   this.start = function(payload){
     updater.payload = payload
@@ -250,7 +249,7 @@ var OTAUpdater = function(otaService){
   }
 
   this.handleError = function(err){
-    updater.emit("error", err)    
+    updater.emit("error", err)
   }
 
   function checkProgramRowCommandToSend(totalSize) {
@@ -307,13 +306,13 @@ var OTAUpdater = function(otaService){
               var dataLength = BootLoaderCommands.MAX_DATA_SIZE;
               var dataToSend = [];
               for (var pos = 0; pos < dataLength; pos++) {
-                  if (startPosition < modelData.dat.length) {
-                      var data = modelData.data[startPosition];
-                      dataToSend[pos] = data;
-                      startPosition++;
-                  } else {
-                      break;
-                  }
+                if (startPosition < modelData.dat.length) {
+                    var data = modelData.data[startPosition];
+                    dataToSend[pos] = data;
+                    startPosition++;
+                } else {
+                    break;
+                }
               }
 
               updater.currentState = PROGRAM_ROW_SEND_DATA_RES;
