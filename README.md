@@ -13,8 +13,77 @@ could be adapted to work with other implementations.
 ## Installing
 `npm install`
 
-## Running
-`node index.js`
+
+## Using
+```javascript
+var CypressDFU = require('../../')
+
+//Attach listeners
+CypressDFU.on('progress', function (progress) {
+  console.log(['Flashing... ', progress, '%'].join(''))
+})
+CypressDFU.on('flashStart', function () {
+  console.log('Flashing...')
+})
+CypressDFU.on('flashFinished', function () {
+  console.log('Flashing...Success')
+})
+CypressDFU.on('error', function (err, code, message) {
+  console.log(err, code, message)
+})
+
+//Pipe data received from your connection into the updater
+yourConnection.on('data', function (data) {
+  CypressDFU.onData(data)
+})
+
+CypressDFU.startUpdate(payload, yourMethodToSendData)
+
+```
+## Methods
+### startUpdate(payload, writeMethod)
+### onData(data)
+
+## Events
+Events emitted by `cypress-dfu`.
+Event handlers can be attached by:
+
+```javascript
+var CypressDFU = require('cypress-dfu')
+CypressDFU.on([event_name], [params...])
+```
+
+### flashStart
+Emitted once the DFU process has begun.
+```javascript
+CypressDFU.on('flashStart', function(){
+  //
+})
+```
+
+### flashFinished
+Emitted once the DFU process has completed successfully.
+```javascript
+CypressDFU.on('flashFinished', function(){
+  //
+})
+```
+
+### error
+Emitted for any errors that occur during DFU. An error indicates the DFU process has failed.
+```javascript
+CypressDFU.on('error', function(error, message, code){
+  //
+})
+```
+
+### progress
+Progress events while DFU is occurring. Where `progress` is a percentage 0-100.
+```javascript
+CypressDFU.on('progress', function(progress){
+  //
+})
+```
 
 # Flashing Flow
 Flow captured from debugging the CySmart app. See `output.log` for the full dump.
