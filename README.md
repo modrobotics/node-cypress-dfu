@@ -1,14 +1,17 @@
 # Cypress Firmware Updater
 
-`cypress-dfu` is a hello-world for updating firmware on Cypress BLE chips
-running the Fixed-Stack Bootloader supplied by Cypress. It is a javascript port
-of the Android source for the CySmart app.
+`cypress-dfu` is a BLE connection agnostic library for performing firmware updates
+to [Cypress](http://www.cypress.com/) radios running the Cypress OTA DFU Bootloader.
 
-Currently this repo is customized to work with the Cubelets Hat specifically. But
-could be adapted to work with other implementations.
+In order to use `cypress-dfu` a connection needs to be established using another library such as [noble](https://github.com/noble/noble) (see the example for such a use case).
+
+This library is a javascript port of the code found in the official [Cypress CySmart Mobile App](http://www.cypress.com/documentation/software-and-drivers/cysmart-mobile-app).
 
 ## Requirements
-- node v6.14.2 or later
+- An established connection to the Cypress radio to be updated.
+- A handle for sending data to the DFU characteristic
+- A way to pass data received from the Cypress DFU characteristic into `cypress-dfu`
+- node v6.14.2 or later for the [noble](https://github.com/noble/noble) example.
 
 ## Installing
 `npm install`
@@ -42,7 +45,18 @@ CypressDFU.startUpdate(payload, yourMethodToSendData)
 ```
 ## Methods
 ### startUpdate(payload, writeMethod)
+Begins the DFU process.
+- `payload` (String)
+  - Contents of the .cyacd bootloadable file that should be flashed
+- `writeMethod` (Method)
+  - A method, or helper used to send data to the DFU Characteristic
+  - Needs to match interface: `function writeMethod(data, callback)`
+    - `data` (Array) bytes to be sent to the Cypress radio
+    - `callback` (Method) callback for when write has completed
+
 ### onData(data)
+Used to pipe data received over the BLE connection to the updater.
+- `data` (Array) bytes received over the BLE link.
 
 ## Events
 Events emitted by `cypress-dfu`.
