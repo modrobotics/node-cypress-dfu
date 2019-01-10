@@ -1,7 +1,7 @@
 # Cypress Firmware Updater
 
 `cypress-dfu` is a BLE connection agnostic library for performing firmware updates
-to [Cypress](http://www.cypress.com/) radios running the Cypress OTA DFU Bootloader.
+to [Cypress](http://www.cypress.com/) radios running the [Cypress OTA DFU Bootloader](http://www.cypress.com/documentation/application-notes/an97060-psoc-4-ble-and-proc-ble-over-air-ota-device-firmware-upgrade).
 
 In order to use `cypress-dfu` a connection needs to be established using another library such as [noble](https://github.com/noble/noble) (see the example for such a use case).
 
@@ -40,6 +40,7 @@ yourConnection.on('data', function (data) {
   CypressDFU.onData(data)
 })
 
+//Pass in the payload(.cyacd file contents) and method that can be used to send data OTA. Begin the DFU process.
 CypressDFU.startUpdate(payload, yourMethodToSendData)
 
 ```
