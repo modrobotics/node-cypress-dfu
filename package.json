@@ -1,5 +1,5 @@
 {
-  "name": "node-cypress-dfu",
+  "name": "cypress-dfu",
   "version": "0.0.1",
   "description": "Library for performing DFU updates to Cypress BLE modules running the Cypress Bootloader",
   "main": "index.js",
