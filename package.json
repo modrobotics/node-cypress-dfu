@@ -1,7 +1,7 @@
 {
-  "name": "cypress-dfu",
-  "version": "1.0.0",
-  "description": "",
+  "name": "node-cypress-dfu",
+  "version": "0.0.1",
+  "description": "Library for performing DFU updates to Cypress BLE modules running the Cypress Bootloader",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,17 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cli-progress": "^2.1.1",
     "crc": "^3.8.0",
     "debug": "^4.1.1",
-    "select-shell": "^1.1.2",
     "underscore": "^1.9.1"
   },
-  "optionalDependencies": {
-    "noble-mac": "git://github.com/Timeular/noble-mac.git",
-    "noble-winrt": "git://github.com/Timeular/noble-winrt.git"
-  },
   "devDependencies": {
-    "tape": "^4.9.2"
+    "tape": "^4.9.2",
+    "noble-mac": "git://github.com/Timeular/noble-mac.git",
+    "noble-winrt": "git://github.com/Timeular/noble-winrt.git",
+    "cli-progress": "^2.1.1",
+    "select-shell": "^1.1.2"
   }
 }
