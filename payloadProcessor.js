@@ -27,15 +27,15 @@ var PayloadProcessor = function (cypressPayload) {
       // [1-byte ArrayID][2-byte RowNumber][2-byte DataLength][N-byte Data][1byte Checksum]
       // create data model
       var model = new OTAFlashRow()
-      model.arrayID = parseInt(lines[i].substring(1, 3), 16)// 01
-      model.rowNumber = processor._getMSBString(lines[i].substring(3, 7))// D500
-      model.dataLength = parseInt(lines[i].substring(7, 11), 16)// 0080
-      model.checksum = parseInt(lines[i].substring(lines[i].length - 3, lines[i].length), 16)// 88
+      model.arrayID = parseInt(lines[i].substring(1, 3), 16)// ie: 01
+      model.rowNumber = processor._getMSBString(lines[i].substring(3, 7))// ie: D500
+      model.dataLength = parseInt(lines[i].substring(7, 11), 16)// ie: 0080
+      model.checksum = parseInt(lines[i].substring(lines[i].length - 3, lines[i].length), 16)// ie: 88
 
-      // 00400020916A0100F1CB0100F1CB010080B500AF024B83F3088806F0DBF8C0460040002080B500AF374B12221A6007F03FFD364B180007F077FF012007F048FD302007F053FB324B324A1A60324B8022D2051A60314B314A126802210A431A602F4B304A1A60304B00221A602F4B2F4A126808218A431A60FA23DB00180007F08
+      // ie: 00400020916A0100F1CB0100F1CB010080B500AF024B83F3088806F0DBF8C0460040002080B500AF374B12221A6007F03FFD364B180007F077FF012007F048FD302007F053FB324B324A1A60324B8022D2051A60314B314A126802210A431A602F4B304A1A60304B00221A602F4B2F4A126808218A431A60FA23DB00180007F08
       var dataCharacters = lines[i].substring(11, lines[i].length - 2)
       var b = 0
-      var dataArray = []// TODO: Byte array
+      var dataArray = []
       for (var a = 0; a < model.dataLength; a++) {
         dataArray[a] = parseInt(dataCharacters.substring(b, b + 2), 16)
         b += 2
