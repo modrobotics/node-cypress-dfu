@@ -7,10 +7,10 @@ var payloadProcessor = new PayloadProcessor(fs.readFileSync('./test/bootloadable
 test('Read Header', function (t) {
   t.plan(3)
   payloadProcessor.analyzeHeader()
-  //0E50119E
-  t.equal(payloadProcessor.siliconID, "9E11500E", "SiliconID is correct")
-  t.equal(payloadProcessor.siliconRev, "00", "SiliconRev is correct")
-  t.equal(payloadProcessor.checkSumType, "00", "checkSumType is correct")
+  // 0E50119E
+  t.equal(payloadProcessor.siliconID, '9E11500E', 'SiliconID is correct')
+  t.equal(payloadProcessor.siliconRev, '00', 'SiliconRev is correct')
+  t.equal(payloadProcessor.checkSumType, '00', 'checkSumType is correct')
 })
 
 test('Read Data Lines: first line', function (t) {
@@ -18,11 +18,11 @@ test('Read Data Lines: first line', function (t) {
   payloadProcessor.readDataLines()
 
   var firstLine = payloadProcessor.flashDataLines[0]
-  t.equal(firstLine.arrayID, 1, "First lines Array ID is correct")
-  t.equal(firstLine.rowNumber, "D500", "First lines row number is correct")
-  t.equal(firstLine.dataLength, 128, "First lines data length is correct")
-  t.equal(firstLine.checksum, 136, "First lines checksum is correct")
-  t.equal(firstLine.data.length, firstLine.dataLength, "There are the correct number of data bytes")
+  t.equal(firstLine.arrayID, 1, 'First lines Array ID is correct')
+  t.equal(firstLine.rowNumber, 'D500', 'First lines row number is correct')
+  t.equal(firstLine.dataLength, 128, 'First lines data length is correct')
+  t.equal(firstLine.checksum, 136, 'First lines checksum is correct')
+  t.equal(firstLine.data.length, firstLine.dataLength, 'There are the correct number of data bytes')
 })
 
 // test('Read Data Lines: all lines', function (t) {

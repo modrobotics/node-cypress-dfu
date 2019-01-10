@@ -1,12 +1,12 @@
 var PayloadProcessor = require('./payloadProcessor.js')
 var OTAUpdater = require('./ota_updater.js')
 var events = require('events')
-var util = require('util');
+var util = require('util')
 
-var CypressDFU = function(){
+var CypressDFU = function () {
   var cypressDFU = this
 
-  this.startUpdate = function(payload, writeMethod){
+  this.startUpdate = function (payload, writeMethod) {
     this.otaUpdater = new OTAUpdater(writeMethod)
     this.onData = this.otaUpdater.onData
     this.attachEventListeners()
@@ -17,24 +17,24 @@ var CypressDFU = function(){
 
     this.otaUpdater.start(payloadProcessor)
 
-    return this.otaUpdater;
+    return this.otaUpdater
   }
 
-  this.attachEventListeners = function(){
-    this.otaUpdater.on('progress', function(percentage){
+  this.attachEventListeners = function () {
+    this.otaUpdater.on('progress', function (percentage) {
       cypressDFU.emit('progress', percentage)
     })
-    this.otaUpdater.on('flashStart', function(){
+    this.otaUpdater.on('flashStart', function () {
       cypressDFU.emit('flashStart')
     })
-    this.otaUpdater.on('flashFinished', function(){
+    this.otaUpdater.on('flashFinished', function () {
       cypressDFU.emit('flashFinished')
     })
-    this.otaUpdater.on('error', function(err, code, message){
+    this.otaUpdater.on('error', function (err, code, message) {
       cypressDFU.emit('error', err, code, message)
     })
   }
 }
 
-util.inherits(CypressDFU, events.EventEmitter);
+util.inherits(CypressDFU, events.EventEmitter)
 module.exports = new CypressDFU()

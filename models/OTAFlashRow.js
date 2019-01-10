@@ -1,4 +1,4 @@
-var OTAFlashRow = function(arrayID, rowNumber, dataLength, data, checksum){
+var OTAFlashRow = function (arrayID, rowNumber, dataLength, data, checksum) {
   this.arrayID = arrayID
   this.rowNumber = rowNumber
   this.dataLength = dataLength
@@ -6,4 +6,4 @@ var OTAFlashRow = function(arrayID, rowNumber, dataLength, data, checksum){
   this.checksum = checksum
 }
 
-module.exports = OTAFlashRow;
+module.exports = OTAFlashRow

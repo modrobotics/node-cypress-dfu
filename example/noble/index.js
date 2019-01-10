@@ -4,19 +4,19 @@ var CypressDFU = require('../../')
 var OTAService = require('./service.js')
 var otaService = new OTAService()
 
-var ProgressBar = require('cli-progress');
-var progressBar = new ProgressBar.Bar({}, ProgressBar.Presets.shades_classic);
+var ProgressBar = require('cli-progress')
+var progressBar = new ProgressBar.Bar({}, ProgressBar.Presets.shades_classic)
 
-var _ = require('underscore');
+var _ = require('underscore')
 
-//For Allowing user to select a device to update
+// For Allowing user to select a device to update
 var list = require('select-shell')(
   /* possible configs */
   {
     pointer: ' ▸ ',
     pointerColor: 'yellow',
     checked: ' ◉  ',
-    unchecked:' ◎  ',
+    unchecked: ' ◎  ',
     checkedColor: 'blue',
     msgCancel: 'No selected options!',
     msgCancelColor: 'orange',
@@ -25,68 +25,68 @@ var list = require('select-shell')(
     prepend: true,
     disableInput: true
   }
-);
+)
 
-list.on('select', function(options){
+list.on('select', function (options) {
   var device = options[0].value
 
-  otaService.stopDeviceScan(function(){
-    otaService.connect(device, function(err){
-      if(err){
-        console.log("Connecting Failed, please try again.")
+  otaService.stopDeviceScan(function () {
+    otaService.connect(device, function (err) {
+      if (err) {
+        console.log('Connecting Failed, please try again.')
         process.exit(0)
       }
 
-      var payloadPath = "./test/bootloadable.cyacd"
+      var payloadPath = './test/bootloadable.cyacd'
       var payload = fs.readFileSync(payloadPath, 'utf8')
 
-      otaService.on('data', function(data){
+      otaService.on('data', function (data) {
         CypressDFU.onData(data)
       })
 
       CypressDFU.startUpdate(payload, otaService.writeOTABootLoaderCommand)
     })
   })
-});
+})
 
-list.on('cancel', function(options){
-  console.log('Cancel list, '+ options.length +' options selected');
-  process.exit(0);
-});
+list.on('cancel', function (options) {
+  console.log('Cancel list, ' + options.length + ' options selected')
+  process.exit(0)
+})
 
-CypressDFU.on('progress', function(percentage){
+CypressDFU.on('progress', function (percentage) {
   progressBar.update(percentage)
 })
-CypressDFU.on('flashStart', function(percentage){
-  console.log("Flashing...")
-  progressBar.start(100,0)
+CypressDFU.on('flashStart', function (percentage) {
+  console.log('Flashing...')
+  progressBar.start(100, 0)
 })
-CypressDFU.on('flashFinished', function(){
+CypressDFU.on('flashFinished', function () {
   progressBar.stop()
-  console.log("Flashing...Success")
-  process.exit();
+  console.log('Flashing...Success')
+  process.exit()
 })
-CypressDFU.on('error', function(err, code, message){
+CypressDFU.on('error', function (err, code, message) {
   console.log(err, code, message)
   process.exit()
 })
 
-var discoverTimeout = null;
+var discoverTimeout = null
 
-function deviceAdded(device){
+function deviceAdded (device) {
   clearTimeout(discoverTimeout)
-  discoverTimeout = setTimeout(function(){
+  discoverTimeout = setTimeout(function () {
     _.each(otaService.devices, function (device, address) {
-      list.option(device.name+" ("+device.address+")", device)
-    });
-    console.log("Select a Cubelet Hat to flash:")
-    list.list();
+      list.option(device.name + ' (' + device.address + ')', device)
+    })
+    console.log('Select a Cubelet Hat to flash:')
+    list.list()
   }, 5000)
 }
-function deviceUpdated(device){
+function deviceUpdated (device) {
   //
 }
 
-otaService.startDeviceScan(deviceAdded, deviceUpdated, function(err){
+otaService.startDeviceScan(deviceAdded, deviceUpdated, function (err) {
 
 })
