@@ -77,11 +77,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseEnterBootLoaderAcknowledgement = function (parse, callback) {
     var result = parse.trim().replace(' ', '')
     var response = result.substring(RESPONSE_START, RESPONSE_END)
@@ -101,11 +96,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseGetFlashSizeAcknowledgement = function (parse, callback) {
     var result = parse.trim().replace(' ', '')
     var response = result.substring(RESPONSE_START, RESPONSE_END)
@@ -125,11 +115,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseParseRowAcknowledgement = function (parse, callback) {
     var result = parse.trim().replace(' ', '')
     var response = result.substring(RESPONSE_START, RESPONSE_END)
@@ -147,11 +132,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseVerifyRowAcknowledgement = function (parse, callback) {
     var result = parse.trim().replace(' ', '')
     var response = result.substring(RESPONSE_START, RESPONSE_END)
@@ -169,11 +149,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseVerifyCheckSum = function (parse, callback) {
     var result = parse.trim().replace(' ', '')
     var response = result.substring(RESPONSE_START, RESPONSE_END)
@@ -191,11 +166,6 @@ var OTAResponseReceiver = function () {
     }
   }
 
-  /**
-     * Method parses the response String and executes the corresponding cases
-     *
-     * @param parse
-     */
   this.parseExitBootloader = function (parse, callback) {
     var response = parse.trim().replace(' ', '')
     // int responseBytes = Integer.parseInt(response, RADIX);
