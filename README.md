@@ -19,7 +19,7 @@ This library is a javascript port of the code found in the official [Cypress CyS
 
 ## Using
 ```javascript
-var CypressDFU = require('../../')
+var CypressDFU = require('cypress-dfu')
 
 //Attach listeners
 CypressDFU.on('progress', function (progress) {
