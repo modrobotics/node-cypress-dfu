@@ -1,6 +1,6 @@
 var test = require('tape')
 
-var OTAUtil = require('../ota_util')
+var OTAUtil = require('../otaUtil')
 
 function format (value) {
   return OTAUtil.swapEndian(value).toString(16).toUpperCase()

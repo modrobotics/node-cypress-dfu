@@ -1,5 +1,5 @@
-var OTAUtil = require('./ota_util.js')
-var debug = require('debug')('cypress_dfu:ota_reader')
+var OTAUtil = require('./otaUtil.js')
+var debug = require('debug')('cypressDFU:otaReader')
 
 var OTAResponseReceiver = function () {
   // Substring Constants
@@ -68,7 +68,7 @@ var OTAResponseReceiver = function () {
     switch (responseBytes) {
       case CASE_SUCCESS:
         debug('CYRET_SUCCESS')
-        callback(null, status)// SEND_DATA_ROW_STATUS
+        callback(null, status)
         break
       default:
         debug('CYRET ERROR')
@@ -168,9 +168,8 @@ var OTAResponseReceiver = function () {
 
   this.parseExitBootloader = function (parse, callback) {
     var response = parse.trim().replace(' ', '')
-    // int responseBytes = Integer.parseInt(response, RADIX);
     debug('Reponse Byte Exit>>' + response)
-    callback(null, response)// VERIFY_EXIT_BOOTLOADER
+    callback(null, response)
   }
 }
 

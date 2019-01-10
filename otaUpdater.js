@@ -1,10 +1,10 @@
 var events = require('events')
 var util = require('util')
-var debug = require('debug')('cypress-dfu:ota_updater')
-var OTAUtil = require('./ota_util.js')
-var BootLoaderCommands = require('./ota_commands.js')
-var OTAReader = require('./ota_reader.js')
-var OTAWriter = require('./ota_writer.js')
+var debug = require('debug')('cypressDFU:otaUpdater')
+var OTAUtil = require('./otaUtil.js')
+var BootLoaderCommands = require('./otaCommands.js')
+var OTAReader = require('./otaReader.js')
+var OTAWriter = require('./otaWriter.js')
 
 // States for the flashing state machine
 var ENTER_BOOTLOADER_REQ = 1

@@ -99,6 +99,9 @@ var OTAService = function () {
     device.once('connect', function () {
       debug('Connected...Discovering Services/Characteristics')
       device.discoverSomeServicesAndCharacteristics([OTA_SERVICE_UUID, APPLICATION_SERVICE_UUID], [OTA_COMMAND_UUID, APPLICATION_COMMAND_UUID], function (err, services, characteristics) {
+        if (err) {
+          console.error(err)
+        }
         if (service.mode === APPLICATION_MODE) {
           debug('device is in application mode.')
           var applicationCharacteristic = characteristics.find(characteristic => characteristic.uuid === formatUUID(APPLICATION_COMMAND_UUID))

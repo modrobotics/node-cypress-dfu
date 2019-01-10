@@ -88,5 +88,7 @@ function deviceUpdated (device) {
 }
 
 otaService.startDeviceScan(deviceAdded, deviceUpdated, function (err) {
-
+  if (err) {
+    console.error(err)
+  }
 })

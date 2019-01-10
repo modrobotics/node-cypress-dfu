@@ -1,5 +1,5 @@
 var PayloadProcessor = require('./payloadProcessor.js')
-var OTAUpdater = require('./ota_updater.js')
+var OTAUpdater = require('./otaUpdater.js')
 var events = require('events')
 var util = require('util')
 

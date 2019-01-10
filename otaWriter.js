@@ -1,6 +1,6 @@
-var BootLoaderCommands = require('./ota_commands')// TODO
-var OTAUtil = require('./ota_util.js')
-var debug = require('debug')('cypress_dfu:ota_writer')
+var BootLoaderCommands = require('./otaCommands')
+var OTAUtil = require('./otaUtil.js')
+var debug = require('debug')('cypressDFU:otaWriter')
 
 var OTAFirmwareWrite = function (writeMethod) {
   var BYTE_START_CMD = 0
