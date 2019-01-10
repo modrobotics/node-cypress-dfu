@@ -57,7 +57,7 @@ list.on('cancel', function (options) {
 CypressDFU.on('progress', function (percentage) {
   progressBar.update(percentage)
 })
-CypressDFU.on('flashStart', function (percentage) {
+CypressDFU.on('flashStart', function () {
   console.log('Flashing...')
   progressBar.start(100, 0)
 })
