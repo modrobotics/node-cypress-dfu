@@ -284,41 +284,41 @@ var OTAUpdater = function(writeMethod){
       if (mRowNo >= updater.startRow && mRowNo <= updater.endRow) {
           var verifyDataLength = modelData.dataLength - startPosition;
           if (checkProgramRowCommandToSend(verifyDataLength)) {
-              var rowMSB = parseInt(modelData.rowNumber.substring(0, 2), 16);
-              var rowLSB = parseInt(modelData.rowNumber.substring(2, 4), 16);
-              var dataLength = modelData.dataLength - startPosition;
-              var dataToSend = [];
-              for (var pos = 0; pos < dataLength; pos++) {
-                if (startPosition < modelData.data.length) {
+            var rowMSB = parseInt(modelData.rowNumber.substring(0, 2), 16);
+            var rowLSB = parseInt(modelData.rowNumber.substring(2, 4), 16);
+            var dataLength = modelData.dataLength - startPosition;
+            var dataToSend = [];
+            for (var pos = 0; pos < dataLength; pos++) {
+              if (startPosition < modelData.data.length) {
+                var data = modelData.data[startPosition];
+                dataToSend[pos] = data;
+                startPosition++;
+              } else {
+                break;
+              }
+            }
+
+            updater.currentState = PROGRAM_ROW_RES;
+            otaWriter.OTAProgramRowCmd(rowMSB, rowLSB, modelData.arrayID, dataToSend, updater.payload.checkSumType);
+
+            updater.programRowStartPos = 0
+          } else {
+            var dataLength = BootLoaderCommands.MAX_DATA_SIZE;
+            var dataToSend = [];
+            for (var pos = 0; pos < dataLength; pos++) {
+              if (startPosition < modelData.dat.length) {
                   var data = modelData.data[startPosition];
                   dataToSend[pos] = data;
                   startPosition++;
-                } else {
+              } else {
                   break;
-                }
               }
+            }
 
-              updater.currentState = PROGRAM_ROW_RES;
-              otaWriter.OTAProgramRowCmd(rowMSB, rowLSB, modelData.arrayID, dataToSend, updater.payload.checkSumType);
+            updater.currentState = PROGRAM_ROW_SEND_DATA_RES;
+            otaWriter.OTAProgramRowSendDataCmd(dataToSend, updater.payload.checkSumType);
 
-              updater.programRowStartPos = 0
-          } else {
-              var dataLength = BootLoaderCommands.MAX_DATA_SIZE;
-              var dataToSend = [];
-              for (var pos = 0; pos < dataLength; pos++) {
-                if (startPosition < modelData.dat.length) {
-                    var data = modelData.data[startPosition];
-                    dataToSend[pos] = data;
-                    startPosition++;
-                } else {
-                    break;
-                }
-              }
-
-              updater.currentState = PROGRAM_ROW_SEND_DATA_RES;
-              otaWriter.OTAProgramRowSendDataCmd(dataToSend, updater.payload.checkSumType);
-
-              updater.programRowStartPos = startPosition
+            updater.programRowStartPos = startPosition
           }
       } else {
         updater.handleError(new Error(["Program row number is not within the acceptable range.", mRowNo, updater.startRow, updater.endRow].join(" ")))
