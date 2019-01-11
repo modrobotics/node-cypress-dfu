@@ -27,38 +27,6 @@ var OTAResponseReceiver = function () {
   var RADIX = 16
 
   var CASE_SUCCESS = 0
-  // var CASE_ERR_FILE = 1
-  // var CASE_ERR_EOF = 2
-  // var CASE_ERR_LENGTH = 3
-  // var CASE_ERR_DATA = 4
-  // var CASE_ERR_CMD = 5
-  // var CASE_ERR_DEVICE = 6
-  // var CASE_ERR_VERSION = 7
-  // var CASE_ERR_CHECKSUM = 8
-  // var CASE_ERR_ARRAY = 9
-  // var CASE_ERR_ROW = 10
-  // var CASE_BTLDR = 11
-  // var CASE_ERR_APP = 12
-  // var CASE_ERR_ACTIVE = 13
-  // var CASE_ERR_UNK = 14
-  // var CASE_ABORT = 15
-  //
-  // // Error Constants
-  // var CYRET_ERR_FILE = 'CYRET_ERR_FILE'
-  // var CYRET_ERR_EOF = 'CYRET_ERR_EOF'
-  // var CYRET_ERR_LENGTH = 'CYRET_ERR_LENGTH'
-  // var CYRET_ERR_DATA = 'CYRET_ERR_DATA'
-  // var CYRET_ERR_CMD = 'CYRET_ERR_CMD'
-  // var CYRET_ERR_DEVICE = 'CYRET_ERR_DEVICE'
-  // var CYRET_ERR_VERSION = 'CYRET_ERR_VERSION'
-  // var CYRET_ERR_CHECKSUM = 'CYRET_ERR_CHECKSUM'
-  // var CYRET_ERR_ARRAY = 'CYRET_ERR_ARRAY'
-  // var CYRET_BTLDR = 'CYRET_BTLDR'
-  // var CYRET_ERR_APP = 'CYRET_ERR_APP'
-  // var CYRET_ERR_ACTIVE = 'CYRET_ERR_ACTIVE'
-  // var CYRET_ERR_UNK = 'CYRET_ERR_UNK'
-  // var CYRET_ERR_ROW = 'CYRET_ERR_ROW'
-  // var CYRET_ABORT = 'CYRET_ABORT'
 
   this.parseParseSendDataAcknowledgement = function (hexValue, callback) {
     var result = hexValue.trim().replace(' ', '')
