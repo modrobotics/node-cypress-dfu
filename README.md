@@ -14,7 +14,7 @@ This library is a javascript port of the code found in the official [Cypress CyS
 - node v6.14.2 or later for the [noble](https://github.com/noble/noble) example.
 
 ## Installing
-`npm install`
+`npm install modrobotics/node-cypress-dfu`
 
 
 ## Using
