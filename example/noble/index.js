@@ -9,6 +9,8 @@ var progressBar = new ProgressBar.Bar({}, ProgressBar.Presets.shades_classic)
 
 var _ = require('underscore')
 
+const PAYLOAD_PATH = './test/bootloadable.cyacd'
+
 // For allowing user to select a device to update
 var list = require('select-shell')(
   /* possible configs */
@@ -37,8 +39,7 @@ list.on('select', function (options) {
         process.exit(0)
       }
 
-      var payloadPath = './test/bootloadable.cyacd'
-      var payload = fs.readFileSync(payloadPath, 'utf8')
+      var payload = fs.readFileSync(PAYLOAD_PATH, 'utf8')
 
       otaService.on('data', function (data) {
         CypressDFU.onData(data)
