@@ -9,7 +9,7 @@ var progressBar = new ProgressBar.Bar({}, ProgressBar.Presets.shades_classic)
 
 var _ = require('underscore')
 
-// For Allowing user to select a device to update
+// For allowing user to select a device to update
 var list = require('select-shell')(
   /* possible configs */
   {
@@ -27,9 +27,9 @@ var list = require('select-shell')(
   }
 )
 
+// On Device select
 list.on('select', function (options) {
   var device = options[0].value
-
   otaService.stopDeviceScan(function () {
     otaService.connect(device, function (err) {
       if (err) {
@@ -75,14 +75,17 @@ var discoverTimeout = null
 
 function deviceAdded (device) {
   clearTimeout(discoverTimeout)
+
+  // After 5 seconds of not seeing a new device, show the list.
   discoverTimeout = setTimeout(function () {
     _.each(otaService.devices, function (device, address) {
       list.option(device.name + ' (' + device.address + ')', device)
     })
-    console.log('Select a Cubelet Hat to flash:')
+    console.log('Select a Cypress device to update:')
     list.list()
   }, 5000)
 }
+
 function deviceUpdated (device) {
   //
 }
