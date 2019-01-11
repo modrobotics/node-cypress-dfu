@@ -5,7 +5,7 @@ var OTAUtil = require('./otaUtil.js')
 var BootLoaderCommands = require('./otaCommands.js')
 var OTAReader = require('./otaReader.js')
 var OTAWriter = require('./otaWriter.js')
-var OTAErrors = require('./otaErros.js')
+var OTAErrors = require('./otaErrors.js')
 
 // States for the flashing state machine
 var ENTER_BOOTLOADER_REQ = 1
