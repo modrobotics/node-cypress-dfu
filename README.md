@@ -101,7 +101,7 @@ CypressDFU.on('progress', function(progress){
 ```
 
 # Flashing Flow
-Flow captured from debugging the CySmart app. See `output.log` for the full dump.
+Flow captured from debugging the CySmart app.
 ```
 Check Sum type comes from CYACD HEADER. Either Summation or CRC16
 
@@ -117,7 +117,7 @@ START COMMAND LEN1 LEN2 C7 FF END
   END: 17
 
 RESPONSE
-  01 STATUS ROW_START_
+  START STATUS DATA END
 
 OTAEnterBootLoaderCmd
  Write request sent with value , [ 01 38 00 00 C7 FF 17  ]
