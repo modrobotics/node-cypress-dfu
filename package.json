@@ -19,5 +19,8 @@
     "noble-winrt": "git://github.com/Timeular/noble-winrt.git",
     "cli-progress": "^2.1.1",
     "select-shell": "^1.1.2"
+  },
+  "browserify": {
+    "transform": ["babelify"]
   }
 }
