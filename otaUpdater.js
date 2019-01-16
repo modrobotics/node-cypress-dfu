@@ -279,13 +279,13 @@ var OTAUpdater = function (writeMethod) {
       if (mRowNo >= updater.startRow && mRowNo <= updater.endRow) {
         var verifyDataLength = modelData.dataLength - startPosition
         if (checkProgramRowCommandToSend(verifyDataLength)) {
-          let rowMSB = parseInt(modelData.rowNumber.substring(0, 2), 16)
-          let rowLSB = parseInt(modelData.rowNumber.substring(2, 4), 16)
-          let dataLength = modelData.dataLength - startPosition
-          let dataToSend = []
-          for (let pos = 0; pos < dataLength; pos++) {
+          var rowMSB = parseInt(modelData.rowNumber.substring(0, 2), 16)
+          var rowLSB = parseInt(modelData.rowNumber.substring(2, 4), 16)
+          var dataLength = modelData.dataLength - startPosition
+          var dataToSend = []
+          for (var pos = 0; pos < dataLength; pos++) {
             if (startPosition < modelData.data.length) {
-              let data = modelData.data[startPosition]
+              var data = modelData.data[startPosition]
               dataToSend[pos] = data
               startPosition++
             } else {
@@ -298,11 +298,11 @@ var OTAUpdater = function (writeMethod) {
 
           updater.programRowStartPos = 0
         } else {
-          let dataLength = BootLoaderCommands.MAX_DATA_SIZE
-          let dataToSend = []
-          for (let pos = 0; pos < dataLength; pos++) {
+          var dataLength = BootLoaderCommands.MAX_DATA_SIZE
+          var dataToSend = []
+          for (var pos = 0; pos < dataLength; pos++) {
             if (startPosition < modelData.dat.length) {
-              let data = modelData.data[startPosition]
+              var data = modelData.data[startPosition]
               dataToSend[pos] = data
               startPosition++
             } else {
