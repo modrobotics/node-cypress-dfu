@@ -38,7 +38,7 @@ var OTAUpdater = function (writeMethod) {
 
   // Handle incoming data from higher level connection
   this.onData = function (data) {
-    data = data.toString('hex')
+    data = new Buffer(data).toString('hex')
     updater.doState(updater.currentState, data)
   }
 
